@@ -1,9 +1,11 @@
-import mongoos from 'mongoos'
+import mongoose from 'mongoose'
+import { DB_URL } from "./env.js";
+
+console.log(DB_URL, "asdfasfhoadjsfasdhfoa");
 
 const connectWithRetry = async () => {
     try {
-        const url = process.env.DB_URL;
-        await mongoos.connect(url);
+        await mongoose.connect(DB_URL);
         console.log('Connected to Mongodb...')
     } catch (error) {
         console.log(error);
@@ -13,4 +15,4 @@ const connectWithRetry = async () => {
 
 connectWithRetry();
 
-export default mongoos;
+export default mongoose;
