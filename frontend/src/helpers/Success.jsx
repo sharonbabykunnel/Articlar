@@ -1,4 +1,5 @@
 import {toast, Bounce} from 'react-toastify'
+import "react-toastify/dist/ReactToastify.css";
 
 const Success = (message) => {
     toast.success(message,{

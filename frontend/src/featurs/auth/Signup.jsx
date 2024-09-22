@@ -1,13 +1,16 @@
 import React from 'react'
-import { userValidationSchema } from '../schemas';
 import { signupApi } from './authApi';
 import { useNavigate } from 'react-router-dom';
-import { userFormik } from 'formik'
+import { useFormik } from 'formik'
+import { userValidationSchema } from '../../schemas';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../redux/userSlice';
 
 const Signup = () => {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
 
-    const formik = userFormik({
+    const formik = useFormik({
         initialValues: {
           firstName: '',
           lastName: '',
@@ -20,8 +23,11 @@ const Signup = () => {
         validationSchema: userValidationSchema,
         onSubmit: async (values, action) => {
             try {
-                signupApi(values);
-                navigate('/home');
+                const response = await signupApi(values);
+                if(response.success){
+                    dispatch(setUser(response.data));
+                    navigate('/home',{state:{fromSignup:true}});
+                }
           } catch (err) {
             err;
           } finally {
@@ -30,22 +36,12 @@ const Signup = () => {
       });
 
   return (
-    <div className="flex items-center justify-center px-4 py-10 bg-white sm:px-6 lg:px-8 sm:py-16 lg:py-24">
+    <div className="flex items-center justify-center py-2 bg-white sm:px-2 lg:px-2 sm:py-2 lg:py-2">
         <div className="xl:w-full xl:max-w-sm 2xl:max-w-md xl:mx-auto">
-        <h2 className="text-3xl font-bold leading-tight text-black sm:text-4xl">Sign up to Celebration</h2>
-        <p className="mt-2 text-base text-gray-600">
-            Already have an account?{' '}
-            <a
-            href="#"
-            title=""
-            className="font-medium text-blue-600 transition-all duration-200 hover:text-blue-700 hover:underline focus:text-blue-700"
-            >
-            Login
-            </a>
-        </p>
 
-        <form action={formik.handleSubmit}  className="mt-8">
+        <form onSubmit={formik.handleSubmit}  className="mt-8">
             <div className="space-y-5">
+            <div className='flex gap-2 '>
             <div>
                 <label htmlFor="firstName" className="text-base font-medium text-gray-900">
                 First Name
@@ -55,6 +51,7 @@ const Signup = () => {
                     type="text"
                     name="firstName"
                     id="firstName"
+                    autoComplete='first-name'
                     placeholder="Enter your full name"
                     {...formik.getFieldProps('firstName')}
                     className="block w-full p-4 text-black placeholder-gray-500 transition-all duration-200 border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:border-blue-600 focus:bg-white caret-blue-600"
@@ -74,14 +71,16 @@ const Signup = () => {
                     type="text"
                     name="lastName"
                     id="lastName"
+                    autoComplete='last-name'
                     placeholder="Enter your full name"
                     {...formik.getFieldProps('lastName')}
-                    className="block w-full p-4 text-black placeholder-gray-500 transition-all duration-200 border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:border-blue-600 focus:bg-white caret-blue-600"
+                    className="block w-full  p-4 text-black placeholder-gray-500 transition-all duration-200 border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:border-blue-600 focus:bg-white caret-blue-600"
                 />
                 </div>
                 {formik.touched.lastName && formik.errors.lastName && (
                 <div className="text-red-500 text-sm">{formik.errors.lastName}</div>
               )}
+            </div>
             </div>
 
             <div>
@@ -93,6 +92,7 @@ const Signup = () => {
                     type="email"
                     name="email"
                     id="email"
+                    autoComplete='email'
                     placeholder="Enter email to get started"
                     {...formik.getFieldProps('email')}
                     className="block w-full p-4 text-black placeholder-gray-500 transition-all duration-200 border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:border-blue-600 focus:bg-white caret-blue-600"
@@ -103,6 +103,7 @@ const Signup = () => {
               )}
             </div>
 
+            <div className='flex gap-4'>
             <div>
                 <label htmlFor="number" className="text-base font-medium text-gray-900">
                 Phone number
@@ -123,17 +124,21 @@ const Signup = () => {
             </div>
 
             <div>
-                <label className="block mb-2">Date of Birth</label>
+                <label className=" ext-base font-medium text-gray-900">Date of Birth</label>
+                <div className="mt-2.5">
                 <input
                   type="date"
                   name="dob"
                   id='dob'
                   {...formik.getFieldProps('dob')}
-                  className="w-full p-2 border rounded"
+                  className="block w-full p-4 text-black placeholder-gray-500 transition-all duration-200 border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:border-blue-600 focus:bg-white caret-blue-600"
+
                 />
                 {formik.errors.dob && formik.touched.dob && (
                   <div className="text-red-500 text-sm">{formik.errors.dob}</div>
                 )}
+                </div>
+            </div>
             </div>
 
             <div>
@@ -145,6 +150,7 @@ const Signup = () => {
                     type="password"
                     name="password"
                     id="password"
+                    autoComplete='new-password'
                     placeholder="Enter your password"
                     {...formik.getFieldProps('password')}
                     className="block w-full p-4 text-black placeholder-gray-500 transition-all duration-200 border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:border-blue-600 focus:bg-white caret-blue-600"
@@ -164,6 +170,7 @@ const Signup = () => {
                     type="password"
                     name="confirmPassword"
                     id="confirmPassword"
+                    autoComplete='new-password'
                     placeholder="Confirm your password"
                     {...formik.getFieldProps('confirmPassword')}
                     className="block w-full p-4 text-black placeholder-gray-500 transition-all duration-200 border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:border-blue-600 focus:bg-white caret-blue-600"
@@ -174,7 +181,7 @@ const Signup = () => {
               )}
             </div>
 
-            <div className="flex items-center">
+            {/* <div className="flex items-center">
                 <input
                 type="checkbox"
                 name="agree"
@@ -191,7 +198,7 @@ const Signup = () => {
                     Privacy Policy
                 </a>
                 </label>
-            </div>
+            </div> */}
 
             <div>
                 <button
@@ -222,7 +229,7 @@ const Signup = () => {
             Sign up with Google
             </button>
 
-            <button
+            {/* <button
             type="button"
             className="relative inline-flex items-center justify-center w-full px-4 py-4 text-base font-semibold text-gray-700 transition-all duration-200 bg-white border-2 border-gray-200 rounded-md hover:bg-gray-100 focus:bg-gray-100 hover:text-black focus:text-black focus:outline-none"
             >
@@ -237,7 +244,7 @@ const Signup = () => {
                 </svg>
             </div>
             Sign up with Facebook
-            </button>
+            </button> */}
         </div>
         </div>
     </div>
