@@ -1,6 +1,6 @@
 import React from 'react'
 
-const EmptyState = () => {
+const EmptyState = ({setAdd}) => {
   return (
     <div className="text-center mt-20">
       <div className="bg-gray-200 w-32 h-32 rounded-full mx-auto mb-6 flex items-center justify-center">
@@ -12,7 +12,7 @@ const EmptyState = () => {
       </div>
       <h2 className="text-2xl font-bold text-gray-700 mb-2">Nothing here yet</h2>
       <p className="text-gray-500 mb-6">You can add your first feed right now.<br />Try it out!</p>
-      <button className="bg-blue-600 text-white px-6 py-2 rounded-md">
+      <button className="bg-blue-600 text-white px-6 py-2 rounded-md" onClick={setAdd}>
         Create New Feed
       </button>
     </div>

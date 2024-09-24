@@ -2,12 +2,10 @@ import React, { useState } from 'react';
 import { X, Plus } from 'lucide-react';
 import { setPreferenceApi } from './homeApi';
 import { useSelector } from 'react-redux';
+import { allPreferences } from '../../const/preferences';
 
 const Preference = ({ onSave }) => {
-    const user = useSelector(state => state.presisted.user)
-  const [allPreferences] = useState([
-    'movies', 'education', 'art', 'game', 'music', 'tech', 'space', 'politics', 'sports'
-  ]);
+  const user = useSelector(state => state.presisted.user)
   const [selectedPreferences, setSelectedPreferences] = useState([]);
 
   const togglePreference = (preferenceToToggle) => {
@@ -20,8 +18,8 @@ const Preference = ({ onSave }) => {
 
   const handleSave = async () => {
     const response = await setPreferenceApi(selectedPreferences,user._id);
-    if(response.success){
     onSave();
+    if(response.success){
     }
   };
 

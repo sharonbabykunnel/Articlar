@@ -1,0 +1,16 @@
+export const allPreferences = [
+  "movies",
+  "education",
+  "art",
+  "game",
+  "music",
+  "tech",
+  "space",
+  "politics",
+  "sports",
+  "Science",
+  "Health",
+  "Business",
+  "Entertainment",
+  "Travel",
+];

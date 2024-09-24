@@ -22,10 +22,12 @@ export async function signin(credential, password) {
     } else {
         user = await authR.findByEmail(parsedCredential)
     }
-    console.log(credential, password,user);
     if (!user) throw new CustomError("User not found", 404);
     const verify = await authR.verifyPassword(password, user.password);
-    if (!verify) throw new CustomError("Incorrect password", 401);
+    console.log(credential, password,user,verify);
+    if (!verify) {
+        throw new CustomError("Incorrect password", 401);
+    }
     return user;
 }
 
