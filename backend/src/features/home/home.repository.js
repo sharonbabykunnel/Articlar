@@ -1,5 +1,6 @@
 import User from './../auth/auth.model.js'
 import Article from './../article/article.model.js'
+import mongoose from 'mongoose';
 
 export async function findArticle(id) {
     return await Article.find({ userId: id });
@@ -15,6 +16,7 @@ export async function getArticles(preferences, id) {
         $match: {
           category: { $in: preferences },
           notInterest: { $nin: [id] },
+          status:'active'
         },
       },
       {
@@ -35,7 +37,28 @@ export async function getArticles(preferences, id) {
 }
 
 export async function getMyArticles(id) {
-    return await Article.find({ userId: id }).revers();
+    return await Article.aggregate([
+        {
+            $match: {
+                userId: new mongoose.Types.ObjectId(id),
+                status:'active'
+          }
+        },
+        {
+            $lookup: {
+                from: 'users',
+                localField: 'userId',
+                foreignField: '_id',
+                as:'user'
+            }
+        },
+        {
+            $unwind:'$user'
+        },
+        {
+            $sort:{ createdAt: - 1 }
+        }
+        ])
 }
 
 export async function postArticle(text, files, userId, category) {
@@ -71,5 +94,12 @@ export async function removeArticle(user, id) {
           userId:{$ne:user}
        },
       { $addToSet: { notInterest: user } }
+    );
+  }
+
+export async function deleteArticle( id) {
+    return await Article.updateOne(
+      { _id: id },
+      { $set: { status: "deleted" } }
     );
   }

@@ -44,3 +44,11 @@ export async function removeArticle(userId, id) {
   if (!response) throw new CustomError("Cannot block your own article", 404);
   return response;
 }
+
+export async function deleteArticle( id) {
+    console.log(id)
+    const response = await homeRepo.deleteArticle(id);
+    console.log(response,'adfasf')
+  if (!response) throw new CustomError("Cannot block your own article", 404);
+  return response;
+}

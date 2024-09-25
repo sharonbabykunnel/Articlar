@@ -56,7 +56,18 @@ export const removeArticle = asyncHadler(async (req, res) => {
         const { userId } = req.body;
         const { id } = req.params;
         const response = await homeSer.removeArticle(userId, id);
-        res.status(200).json({success:true, data:response})
+        res.status(200).json({success:true, data:response,message:'Article Blocked'})
+    } catch (error) {
+        if (error instanceof CustomError) return handleError(res, error.statusCode, error.message, error.code);
+        return handleError(res, 500, "An unexpected error occured. Plrea try again later.")
+    }
+})
+
+export const deleteArticle = asyncHadler(async (req, res) => {
+    try {
+        const { id } = req.params;
+        const response = await homeSer.deleteArticle( id);
+        res.status(200).json({success:true, data:response,message:'Post Deleted'})
     } catch (error) {
         if (error instanceof CustomError) return handleError(res, error.statusCode, error.message, error.code);
         return handleError(res, 500, "An unexpected error occured. Plrea try again later.")

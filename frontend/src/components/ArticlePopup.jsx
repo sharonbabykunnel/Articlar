@@ -4,7 +4,7 @@ import { allPreferences } from '../const/preferences';
 import SelectOption from './SelectOption';
 
 
-const ArticlePopup = ({ onClose ,openFile, setValue, value, submit, category, setCategory}) => {
+const ArticlePopup = ({ onClose ,openFile, setValue, value, title, setTitle, submit, category, setCategory}) => {
 
   const togglefile = ()=>{
     onClose();
@@ -15,21 +15,25 @@ const ArticlePopup = ({ onClose ,openFile, setValue, value, submit, category, se
 
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-10">
+    <div className="fixed inset-0 text-black bg-black bg-opacity-50 flex items-center justify-center z-10">
       <div className="bg-white p-6 rounded-xl max-h-96 h-full w-full max-w-3xl">
         <div className='flex justify-between'>
         <h2 className="text-xl font-bold mb-4">Create a Article</h2>
         <img onClick={onClose} className='w-4 h-4' src="https://cdn-icons-png.flaticon.com/128/2976/2976286.png" alt="" />
 
         </div>
-        <div className="flex w-full h-60  rounded mb-4 border-b">
-          <textarea
-            value={value}
-            onChange={(e)=>setValue(e)}
-            placeholder="What's on your mind?"
-            className="w-full h-full p-2 resize-none border-none outline-none"
-            style={{ boxShadow: 'none' }}
-          ></textarea>
+        <div className="flex flex-col w-full h-60  rounded mb-4 border-b">
+            <div className='flex gap-4 '>
+            <div className=' flex-grow'>
+                <label className="block mb-2">Title:</label>
+                <input
+                  type="text"
+                  name="activity"
+                  value={title}
+                  onChange={(e)=>setTitle(e.target.value)}
+                  className="w-full p-2 border rounded"
+                />
+              </div>
             <div>
                 <label className="block mb-2">Choos category</label>
                     <select name='industry'
@@ -41,6 +45,14 @@ const ArticlePopup = ({ onClose ,openFile, setValue, value, submit, category, se
                         ))}
                     </select>
               </div>
+            </div>
+          <textarea
+            value={value}
+            onChange={(e)=>setValue(e)}
+            placeholder="What's on your mind?"
+            className="w-full h-full p-2 resize-none border-none outline-none"
+            style={{ boxShadow: 'none' }}
+          ></textarea>
         </div>
         <div className='flex justify-between items-center'>
             <div className='flex gap-10'>

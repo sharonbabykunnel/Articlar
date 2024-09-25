@@ -1,6 +1,7 @@
 import React from 'react'
+import CreateArticle from '../featurs/article/CreateArticle'
 
-const EmptyState = ({setAdd}) => {
+const EmptyState = ({setAdd, add}) => {
   return (
     <div className="text-center mt-20">
       <div className="bg-gray-200 w-32 h-32 rounded-full mx-auto mb-6 flex items-center justify-center">

@@ -27,8 +27,9 @@ const articleSlice = createSlice({
       state.articles = [];
     },
     removeArticle: (state, action) => {
+      console.log(action.payload)
       state.articles = state.articles.filter((ele) => ele._id !== action.payload._id);
-    }
+    },
   },
 });
 

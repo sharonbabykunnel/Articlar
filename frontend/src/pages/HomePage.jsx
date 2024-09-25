@@ -21,7 +21,7 @@ const HomePage = () => {
       {showPreferences ? (
         <Preference onSave={handlePreferences} /> 
         ):(
-        <MainBody show='Feed'/>
+        <MainBody show='Feeds'/>
       )}
     </div>
   )

@@ -1,8 +1,10 @@
-import { User, X } from "lucide-react";
+import { Delete, Pencil, Trash, User, X } from "lucide-react";
 import { Suspense, useState } from "react";
-import { likeArticleApi, removeArticleApi } from "./homeApi";
+import { deleteArticleApi, likeArticleApi, removeArticleApi } from "./homeApi";
 import { useDispatch } from "react-redux";
 import { removeArticle, updateArticleLike } from "../../redux/articleSlice";
+import ConfirmationPopup from "../../components/ConfirmationPopup";
+import CreateArticle from "../article/CreateArticle";
 
 const Twitter = ({ className, ...props }) => (
   <svg
@@ -72,7 +74,7 @@ export const TweetNotFound = () => (
   </div>
 );
 
-export const TweetHeader = ({ tweet, removeArticle }) => (
+export const TweetHeader = ({ tweet, removeArticle, show, deleteArticle, editArticle }) => (
   <div className="flex flex-row justify-between tracking-tight">
     <div className="flex items-center space-x-2">
       <span target="_blank" rel="noreferrer">
@@ -91,7 +93,13 @@ export const TweetHeader = ({ tweet, removeArticle }) => (
       </div>
     </div>
     <div>
-      <X onClick={removeArticle}/>
+      {show === 'Feeds' ?
+      <X onClick={removeArticle}/>:
+      <div className="flex gap-2">
+        <Trash onClick={deleteArticle} />
+        <Pencil onClick={editArticle} />
+       </div>
+      }
     </div>
   </div>
 );
@@ -158,8 +166,10 @@ export const TweetLike = ({likes, likeArticle, isLiked})=>(
   </div>
 )
 
-export const MagicTweet = ({ tweet, user, index }) => {
+export const MagicTweet = ({ tweet, user, index, show }) => {
   const dispatch = useDispatch();
+  const [add,setAdd] = useState();
+  const [isOpen, setIsOpen] = useState(false)
   const [isLiked, setIsLiked] = useState(tweet?.likes?.includes(user._id));
   const likeArticle = async ()=>{
     const res = await likeArticleApi(user._id,tweet._id);
@@ -168,23 +178,35 @@ export const MagicTweet = ({ tweet, user, index }) => {
       setIsLiked(!isLiked)
     }
   }
-  const removeArticle = async ()=>{
+  const HandleRemoveArticle = async ()=>{
     if(user._id === tweet.userId) return 
     const res = await removeArticleApi(user._id,tweet._id)
     if(res.success){
       dispatch(removeArticle(tweet));
     }
   }
+  const deleteArticle = async ()=>{
+    const res = await deleteArticleApi(tweet._id);
+    if(res.success){
+     dispatch(removeArticle(tweet))
+    }
+}
+
+const handleEdit = async ()=>{
+  setAdd(!add);
+}
   return (
     <div
       className="relative flex h-full w-full max-w-[32rem] flex-col gap-2 overflow-hidden rounded-lg border p-4 backdrop-blur-md"
     >
-      <TweetHeader tweet={tweet.user} removeArticle={removeArticle} />
+      <TweetHeader tweet={tweet.user} removeArticle={HandleRemoveArticle} show={show} deleteArticle={()=>setIsOpen(true)} editArticle={handleEdit}/>
       <div className="flex flex-row sm:flex-col">
       <TweetBody text={tweet.text} />
       <TweetMedia files={tweet.files} />
       </div>
       <TweetLike likeArticle={likeArticle} isLiked={isLiked} likes={tweet.likes} />
+      <ConfirmationPopup isOpen={isOpen} closeModel={()=>setIsOpen(false)} handleDelete={deleteArticle} />
+      <CreateArticle add={add} article={tweet} setAdd={handleEdit} />
     </div>
   );
 };

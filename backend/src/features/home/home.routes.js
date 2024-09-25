@@ -8,5 +8,6 @@ router.get('/getMyArticle/:id', homeCont.getMyArticle);
 router.post('/postArticle', homeCont.postArticle);
 router.post('/likeArticle/:id', homeCont.likeArticle);
 router.post('/removeArticle/:id', homeCont.removeArticle);
+router.delete('/deleteArticle/:id', homeCont.deleteArticle);
 
 export default router;

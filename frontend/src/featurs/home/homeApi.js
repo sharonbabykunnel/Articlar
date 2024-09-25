@@ -80,3 +80,15 @@ export const removeArticleApi = async ( userId, id) =>{
       Failed(error.response.data.message ? error.response.data.message : error.message);
     }
 }
+
+export const deleteArticleApi = async ( id ) =>{
+    try {
+        const res = await homeApi.delete(`/api/home/deleteArticle/${id}`);
+        console.log(res);
+        Success(res.data.message);
+        return res.data; 
+    } catch (error) {
+      console.log("checking:error", error);
+      Failed(error.response.data.message ? error.response.data.message : error.message);
+    }
+}
