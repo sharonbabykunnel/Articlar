@@ -29,9 +29,21 @@ export const getMyArticle = asyncHadler(async (req, res) => {
 
 export const postArticle = asyncHadler(async (req, res) => {
     try {
-        const { text, files, userId, category } = req.body;
-        console.log(text,files,category,userId)
-        const response = await homeSer.postArticle(text, files, userId, category);
+        const { text, files, userId, category, title } = req.body;
+        console.log(text,files,category,userId,title)
+        const response = await homeSer.postArticle(text, files, userId, category,title);
+        res.status(200).json({success:true, data:response})
+    } catch (error) {
+        if (error instanceof CustomError) return handleError(res, error.statusCode, error.message, error.code);
+        return handleError(res, 500, "An unexpected error occured. Plrea try again later.")
+    }
+})
+
+export const editArticle = asyncHadler(async (req, res) => {
+    try {
+        const { text, files, id, category, title } = req.body;
+        console.log(text, files, category, id, title);
+        const response = await homeSer.editArticle(text, files, id, category, title);
         res.status(200).json({success:true, data:response})
     } catch (error) {
         if (error instanceof CustomError) return handleError(res, error.statusCode, error.message, error.code);

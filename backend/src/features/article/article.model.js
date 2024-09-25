@@ -8,25 +8,28 @@ const articleScheema = mongoose.Schema(
       required: true,
     },
     text: {
-        type: String,
-        trim: true,
+      type: String,
+      trim: true,
     },
     files: [
-    {
+      {
         type: [String],
         trim: true,
-    },
+      },
     ],
     likes: [
       {
         type: String,
         ref: "User",
-    },
+      },
     ],
-    category:
-    {
-        type: String,
-        trim: true,
+    category: {
+      type: String,
+      trim: true,
+    },
+    title: {
+      type: String,
+      require: true,
     },
     status: {
       type: String,
@@ -35,10 +38,10 @@ const articleScheema = mongoose.Schema(
     },
     notInterest: [
       {
-        type:String
-      }
+        type: String,
+      },
     ],
-    isBlocked:Boolean
+    isBlocked: Boolean,
   },
   {
     timestamps: true,

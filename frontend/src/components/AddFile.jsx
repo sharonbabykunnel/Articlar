@@ -2,7 +2,7 @@ import React from 'react';
 import UploadFromcomputer from './UploadFromcomputer';
 import UploadMore from './UploadMore';
 
-const AddFile = ({onClose, next, setValue, value, setFiles}) => {
+const AddFile = ({onClose, next, setValue, value, setFiles, setExistingFiles, existingFiles}) => {
 
     const openText = ()=>{
         next();
@@ -19,7 +19,7 @@ const AddFile = ({onClose, next, setValue, value, setFiles}) => {
                 </div>
                 <div className='flex-grow flex items-center justify-center flex-col gap-4 overflow-auto'>
                     {value?.length > 0 ? (
-                        <UploadMore setValue={setValue} value={value} setFiles={setFiles}/>
+                        <UploadMore setValue={setValue} value={value} setFiles={setFiles} setExistingFiles={setExistingFiles} existingFiles={existingFiles}/>
                     ) : (
                         <UploadFromcomputer setValue={(e)=>setValue(e)}  />
                     )}

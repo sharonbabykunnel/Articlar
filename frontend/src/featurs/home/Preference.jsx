@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { X, Plus } from 'lucide-react';
 import { setPreferenceApi } from './homeApi';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { allPreferences } from '../../const/preferences';
+import { setUser } from '../../redux/userSlice';
 
 const Preference = ({ onSave }) => {
   const user = useSelector(state => state.presisted.user)
   const [selectedPreferences, setSelectedPreferences] = useState([]);
+  const dispatch = useDispatch();
 
   const togglePreference = (preferenceToToggle) => {
     setSelectedPreferences(prev => 
@@ -20,6 +22,7 @@ const Preference = ({ onSave }) => {
     const response = await setPreferenceApi(selectedPreferences,user._id);
     onSave();
     if(response.success){
+        dispatch(setUser(response.data))
     }
   };
 

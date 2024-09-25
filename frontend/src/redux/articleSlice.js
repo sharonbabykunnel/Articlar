@@ -12,6 +12,10 @@ const articleSlice = createSlice({
     addMoreArticle: (state, action) => {
       state.articles.push(action.payload);
     },
+    updateArticle: (state, action) => {
+      console.log(action.payload)
+      state.articles = state.articles.map(article => article._id === action.payload._id ? action.payload : article);
+    },
     updateArticleLike: (state, action) => {
       const { userId, isLiked, index } = action.payload;
       const article = state.articles[index];
@@ -37,6 +41,7 @@ export const {
   setArticles,
   addMoreArticle,
   updateArticleLike,
+  updateArticle,
   unsetArticle,
   removeArticle,
 } = articleSlice.actions;

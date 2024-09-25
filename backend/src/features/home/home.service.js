@@ -20,10 +20,19 @@ export async function getMyArticle(id) {
   return response;
 }
 
-export async function postArticle(text, files, userId, category) {
+export async function postArticle(text, files, userId, category, title) {
   if (!text || !files || !userId || !category) 
     throw new CustomError("text, files, category are needed", 404);
-  const response = await homeRepo.postArticle(text, files, userId, category);
+  const response = await homeRepo.postArticle(text, files, userId, category, title);
+  if (!response) throw new CustomError("No post found", 404);
+  return response;
+}
+
+export async function editArticle(text, files, id, category, title) {
+  if (!text || !files || !id || !category) 
+    throw new CustomError("text, files, category are needed", 404);
+    const response = await homeRepo.editArticle(text, files, id, category, title);
+    console.log(response)
   if (!response) throw new CustomError("No post found", 404);
   return response;
 }

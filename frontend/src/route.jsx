@@ -1,11 +1,12 @@
 import {createBrowserRouter, createRoutesFromElements, Route} from 'react-router-dom'
 import App from './App'
-import SignUpPage from './pages/SignupPage';
-import HomePage from './pages/HomePage';
-import SignInPage from './pages/SignInPage';
-import PrivatePages from './middlewares/PrivatePages';
-import ProfilePage from './pages/ProfilePage';
-import MyArticlePage from './pages/MyArticlePage';
+import { lazy } from 'react'
+const HomePage = lazy(() => import( './pages/HomePage.jsx'))
+const SignInPage = lazy(() => import( './pages/SignInPage.jsx'))
+const ProfilePage = lazy(() => import( './pages/ProfilePage.jsx'))
+const MyArticlePage = lazy(() => import( './pages/MyArticlePage.jsx'))
+const PrivatePages = lazy(() => import( './middlewares/PrivatePages.jsx'))
+const SignUpPage = lazy(() => import( './pages/SignUpPage.jsx'))
 
 const routes = createBrowserRouter(
     createRoutesFromElements(

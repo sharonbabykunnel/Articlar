@@ -104,8 +104,9 @@ export const TweetHeader = ({ tweet, removeArticle, show, deleteArticle, editArt
   </div>
 );
 
-export const TweetBody = ({ text }) => (
+export const TweetBody = ({ text,title }) => (
   <div className="break-words leading-normal tracking-tighter">
+    <h1 className="text-xl ">{title}</h1>
     <span
       className="text-sm font-normal"
       dangerouslySetInnerHTML={{ __html: text }}
@@ -125,7 +126,7 @@ export const TweetMedia = ({ files }) => (
             key={file[0]}
             src={file[0]}
             title={"Photo"}
-            className="h-64 w-5/6 shrink-0 snap-center snap-always rounded-xl border object-cover shadow-sm"
+            className="h-64 max-w-64 min-w-60 shrink-0 snap-center snap-always rounded-xl border object-cover shadow-sm"
           />
           :
           <video
@@ -197,11 +198,11 @@ const handleEdit = async ()=>{
 }
   return (
     <div
-      className="relative flex h-full w-full max-w-[32rem] flex-col gap-2 overflow-hidden rounded-lg border p-4 backdrop-blur-md"
+      className="relative flex h-full w-full  flex-col gap-2 overflow-hidden rounded-lg border p-4 backdrop-blur-md"
     >
       <TweetHeader tweet={tweet.user} removeArticle={HandleRemoveArticle} show={show} deleteArticle={()=>setIsOpen(true)} editArticle={handleEdit}/>
       <div className="flex flex-row sm:flex-col">
-      <TweetBody text={tweet.text} />
+      <TweetBody text={tweet.text} title={tweet.title} />
       <TweetMedia files={tweet.files} />
       </div>
       <TweetLike likeArticle={likeArticle} isLiked={isLiked} likes={tweet.likes} />

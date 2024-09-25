@@ -2,7 +2,7 @@ import React from 'react'
 
 const Card = ({ url, index }) => {
     console.log(url)
-  const isImage = url[1] === 'image'
+  const isImage = url[1].startsWith('image')
 
   return (
     <div key={index} className='flex flex-col items-center justify-center w-[60%]'>

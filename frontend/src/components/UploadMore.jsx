@@ -2,27 +2,33 @@ import React, { useMemo, useState } from 'react'
 import Card from './Card';
 
 
-const UploadMore = ({setValue, value, setFiles}) => {
+const UploadMore = ({setValue, value, setFiles, setExistingFiles,existingFiles}) => {
     const [selected,setSelected] = useState(1)
 
     const fileUrls = useMemo(()=>{
         console.log(value)
-        return value.map(file=>[URL.createObjectURL(file),file.type.split('/')[0]]);
+        return value.map(file=>{
+            if (file instanceof File) {
+                return [URL.createObjectURL(file), file.type];
+            } else {
+                return file;
+            } 
+        });
     })
     console.log(fileUrls);
     const fileList = useMemo(()=>{
         return fileUrls.map(([url,type],index)=>(
             
-            <div className='relative' key={url}>
-            { type === 'image' ?
+            <div className='relative p-2' key={url}>
+            { type.startsWith('image')  ?
             <img
                 src={url}
-                className={`object-contain ${selected === index + 1 ? 'border border-green-600 max-h-24 max-w-24' : 'm-1 max-h-20 max-w-20'}`}
+                className={`object-contain ${selected === index + 1 ? 'border border-green-600 max-h-20 max-w-20' : 'm-1 max-h-20 max-w-20'}`}
                 onClick={() => setSelected(index + 1)}
             /> :
             <video
                 src={url}
-                className={`object-contain ${selected === index + 1 ? 'border border-green-600 max-h-24 max-w-24' : 'm-1 max-h-20 max-w-20'}`}
+                className={`object-contain ${selected === index + 1 ? 'border border-green-600 max-h-20 max-w-20' : 'm-1 max-h-20 max-w-20'}`}
                 onClick={() => setSelected(index + 1)}
              />
             }
@@ -31,10 +37,17 @@ const UploadMore = ({setValue, value, setFiles}) => {
     });
 
     const handleDelete = (selected)=>{
+        if(existingFiles.length < selected){
         setFiles(prev=> prev.filter((_,index)=> index != selected-1));
         if(selected > 1){
             setSelected(selected-1)
         }
+    }else{
+        setExistingFiles(prev=> prev.filter((_,index)=> index != selected-1));
+        if(selected > 1){
+            setSelected(selected-1)
+        }
+    }
     }
 
   return (
@@ -42,7 +55,7 @@ const UploadMore = ({setValue, value, setFiles}) => {
     <div className='border-r flex-grow flex items-center justify-center flex-wrap gap-2 overflow-auto w-[60%] '>
         {fileUrls?.map((url, index) =>  <Card key={url}  url={url}/>)}
     </div>
-    <div className='p-4 flex flex-col justify-between border w-1/3'>
+    <div className='p-4 flex flex-col justify-between border w-1/3 overflow-y-auto'>
     <div>
         <div className='flex justify-between w-full'>
             <h1>{`${selected}/${value?.length}`}</h1>

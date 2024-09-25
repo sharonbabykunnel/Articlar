@@ -7,9 +7,18 @@ import  './config/db.js'
 
 const app = express();
 
-app.use(cors());
+const corsOptions = {
+  origin: '*',
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE"], 
+  credentials: true, 
+};
+
+app.use(cors(corsOptions));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use('/', (req, res) => {
+  res.send('hi')
+})
 app.use(`/api/auth`, authRoutes);
 app.use(`/api/home/`, homeRoutes);
 app.use(`/api/profile/`, profileRoutes);

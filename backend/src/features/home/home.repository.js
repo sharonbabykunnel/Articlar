@@ -61,8 +61,13 @@ export async function getMyArticles(id) {
         ])
 }
 
-export async function postArticle(text, files, userId, category) {
-  return await Article.create({ text, files, userId, category });
+export async function postArticle(text, files, userId, category, title) {
+  return await Article.create({ text, files, userId, category, title });
+}
+
+export async function editArticle(text, files, id, category, title) {
+    console.log(title)
+    return await Article.findByIdAndUpdate(id, { $set: { text, files, title, category } },{new:true});
 }
 
 export async function likeArticle(userId, id) {

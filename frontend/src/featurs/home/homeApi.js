@@ -45,9 +45,9 @@ export const getMyArticleApi = async (id) => {
     }
 }
 
-export const postArticleApi = async (text, files, userId, category) =>{
+export const postArticleApi = async (text, files, userId, category, title) =>{
     try {
-        const res = await homeApi.post(`/api/home/postArticle/`,{text,files,userId,category});
+        const res = await homeApi.post(`/api/home/postArticle/`,{text,files,userId,category, title});
         console.log(res);
         Success(res.data.message);
         return res.data; 
@@ -56,6 +56,26 @@ export const postArticleApi = async (text, files, userId, category) =>{
       Failed(error.response.data.message ? error.response.data.message : error.message);
     }
 }
+
+export const updateArticleApi = async (id, text, files, category, title) => {
+  try {
+    const res = await homeApi.post(`/api/home/editArticle/`, {
+      text,
+      files,
+      id,
+      category,
+      title
+    });
+    console.log(res);
+    Success(res.data.message);
+    return res.data;
+  } catch (error) {
+    console.log("checking:error", error);
+    Failed(
+      error.response.data.message ? error.response.data.message : error.message
+    );
+  }
+};
 
 export const likeArticleApi = async ( userId, id) =>{
     try {
