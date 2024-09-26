@@ -9,9 +9,9 @@ import  './config/db.js'
 const app = express();
 
 const corsOptions = {
-  origin: '*',
-  methods: ["GET", "POST", "PUT", "PATCH", "DELETE"], 
-  credentials: true, 
+  origin: process.env.FRONTEND_URL,
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+  credentials: true,
 };
 const __dirname = path.resolve();
 
