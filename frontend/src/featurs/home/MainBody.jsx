@@ -12,6 +12,7 @@ import { addMoreArticle, setArticles } from '../../redux/articleSlice';
 import { MagicTweet } from './ArticleCard';
 import CreateArticle from '../article/CreateArticle';
 import { Link } from 'react-router-dom';
+import LogOut from '../../components/LogOut';
 
 const MainBody = ({show}) => {
     const dispatch = useDispatch();
@@ -46,8 +47,9 @@ const MainBody = ({show}) => {
           New Feed
         </button>
         <Link to='/profile' >
-        <User2 size={24} className="text-gray-600" />
+        <User2 size={24} className="text-gray-600 mr-4" />
         </Link>
+        <LogOut />
       </div>
     </div>
 

@@ -37,3 +37,15 @@ export const signinApi = async (userData) => {
         Failed(error.res.data.message ? error.res.data.message : error.message)
     }
 }
+
+export const signoutApi = async () => {
+    try {
+        const res = await authApi.post(`/api/auth/signout`);
+        console.log('res:cheking', res.data);
+        Success(res.data.message)
+        localStorage.setItem('accessToken', res.data.accessToken);
+        return res.data
+    } catch (error) {
+        Failed(error.res.data.message ? error.res.data.message : error.message)
+    }
+}
