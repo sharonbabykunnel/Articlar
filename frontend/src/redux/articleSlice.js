@@ -10,7 +10,7 @@ const articleSlice = createSlice({
       state.articles = action.payload;
     },
     addMoreArticle: (state, action) => {
-      state.articles.push(action.payload);
+      state.articles = [action.payload,...state.articles];
     },
     updateArticle: (state, action) => {
       console.log(action.payload)
