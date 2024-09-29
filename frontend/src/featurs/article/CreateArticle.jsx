@@ -7,7 +7,7 @@ import AddFile from '../../components/AddFile';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
 import { postArticleApi,updateArticleApi } from '../home/homeApi';
-import { setArticles, updateArticle } from '../../redux/articleSlice';
+import { addMoreArticle, setArticles, updateArticle } from '../../redux/articleSlice';
 
 const CreateArticle = ({ setAdd, add, article }) => {
     const [text, setText] = useState('');
