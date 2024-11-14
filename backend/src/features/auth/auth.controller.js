@@ -25,10 +25,8 @@ export const signin = asyncHadler(async (req, res) => {
     try {
         const { credential, password } = req.body;
         const response = await authS.signin(credential, password);
-        console.log('response', response);
         genarateToken(res, response._id)
         const accessToken = Token(response._id);
-        console.log(accessToken,'asdf')
         res.status(200).json({success: true, data: response, message: "Loggined",accessToken})
     } catch (error) {
         console.log(error);
