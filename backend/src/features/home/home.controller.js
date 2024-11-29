@@ -30,7 +30,6 @@ export const getMyArticle = asyncHadler(async (req, res) => {
 export const postArticle = asyncHadler(async (req, res) => {
     try {
         const { text, files, userId, category, title } = req.body;
-        console.log(text,files,category,userId,title)
         const response = await homeSer.postArticle(text, files, userId, category,title);
         res.status(200).json({success:true, data:response})
     } catch (error) {
